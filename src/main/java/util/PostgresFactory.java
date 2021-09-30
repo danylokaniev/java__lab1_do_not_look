@@ -1,12 +1,15 @@
 package util;
 
-import dao.UsersImpl;
+import dao.ClientsImpl;
+import dao.EntityImpl;
+import objects.Client;
+
 import java.sql.Statement;
 
-public class MySqlFactory extends Factory {
+public class PostgresFactory extends Factory {
     static Statement statement = null;
 
-    public MySqlFactory(){
+    public PostgresFactory(){
         try {
             System.out.println("Connect to database");
             this.statement = ConnectionPool.getConnection().createStatement();
@@ -16,8 +19,8 @@ public class MySqlFactory extends Factory {
 
     }
 
-    public UsersImpl getUsers(){
-        return new UsersImpl(this.statement);
+    public ClientsImpl getClients(){
+        return new ClientsImpl(this.statement);
     }
 
 }

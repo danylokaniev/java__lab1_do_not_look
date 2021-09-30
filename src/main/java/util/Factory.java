@@ -1,11 +1,11 @@
 package util;
 
-import dao.interfaces.Users;
+import dao.ClientsImpl;
 
 public abstract class Factory {
     public static Factory createFactory(){
-        return new MySqlFactory();
+        return new PostgresFactory();
     }
 
-    public abstract Users getUsers();
+    public abstract ClientsImpl getClients();
 }
