@@ -29,19 +29,16 @@ public class OrdersImpl implements EntityImpl<Order> {
                         "clientId varchar(450) NOT NULL REFERENCES " + ClientsImpl.getTableName() + "," +
                         "taskId varchar(450) NOT NULL  REFERENCES " + TasksImpl.getTableName() +
                         ")";
-        System.out.println(sqlCreateTableStatement);
         this.executeUpdate(sqlCreateTableStatement);
     }
 
-    public void insert(Order client) {
+    public void insert(Order order) {
         String sql = "INSERT INTO \"" + this.tableName + "\""
                 + " (id, clientId, taskId)"
                 + " VALUES ('"
-                + client.getId() + "', '"
-                + client.getClientId() + "', '"
-                + client.getTaskId() + "')";
-
-        System.out.println(sql);
+                + order.getId() + "', '"
+                + order.getClientId() + "', '"
+                + order.getTaskId() + "')";
 
         this.executeUpdate(sql);
     }
@@ -61,10 +58,10 @@ public class OrdersImpl implements EntityImpl<Order> {
     }
 
     public ArrayList<Order> getAll() {
-        ArrayList<Order> clients = new ArrayList<>();
+        ArrayList<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM \"" + this.tableName +"\"";
-        this.executeSelectQuery(sql, clients);
-        return clients;
+        this.executeSelectQuery(sql, orders);
+        return orders;
     }
 
     public Order createEntityFromQuery(ResultSet resultSet) {
@@ -91,12 +88,12 @@ public class OrdersImpl implements EntityImpl<Order> {
         return null;
     }
 
-    public void executeSelectQuery(String query, ArrayList<Order> clients) {
+    public void executeSelectQuery(String query, ArrayList<Order> orders) {
         try {
             ResultSet resultSet = this.statement.executeQuery(query);
             while (resultSet.next()) {
-                Order client = this.createEntityFromQuery(resultSet);
-                clients.add(client);
+                Order order = this.createEntityFromQuery(resultSet);
+                orders.add(order);
             }
         } catch (SQLException e) {
             e.printStackTrace();

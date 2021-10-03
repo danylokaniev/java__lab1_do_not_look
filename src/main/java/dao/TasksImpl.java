@@ -1,7 +1,6 @@
 package dao;
 
 import objects.Task;
-import objects.Task;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,14 +35,14 @@ public class TasksImpl implements EntityImpl<Task> {
         this.executeUpdate(sqlCreateTableStatement);
     }
 
-    public void insert(Task client) {
+    public void insert(Task order) {
         String sql = "INSERT INTO \"" + this.tableName + "\""
                 + " (id, name, description, price)"
                 + " VALUES ('"
-                + client.getId() + "', '"
-                + client.getName() + "', '"
-                + client.getDescription() + "', '"
-                + client.getPrice() + "')";
+                + order.getId() + "', '"
+                + order.getName() + "', '"
+                + order.getDescription() + "', '"
+                + order.getPrice() + "')";
 
         this.executeUpdate(sql);
     }
@@ -62,10 +61,10 @@ public class TasksImpl implements EntityImpl<Task> {
     }
 
     public ArrayList<Task> getAll() {
-        ArrayList<Task> clients = new ArrayList<>();
+        ArrayList<Task> orders = new ArrayList<>();
         String sql= "SELECT * FROM \"" + this.tableName +"\"";
-        this.executeSelectQuery(sql, clients);
-        return clients;
+        this.executeSelectQuery(sql, orders);
+        return orders;
     }
 
     public Task createEntityFromQuery(ResultSet resultSet) {
@@ -93,12 +92,12 @@ public class TasksImpl implements EntityImpl<Task> {
         return null;
     }
 
-    public void executeSelectQuery(String query, ArrayList<Task> clients) {
+    public void executeSelectQuery(String query, ArrayList<Task> orders) {
         try {
             ResultSet resultSet = this.statement.executeQuery(query);
             while (resultSet.next()) {
-                Task client = this.createEntityFromQuery(resultSet);
-                clients.add(client);
+                Task order = this.createEntityFromQuery(resultSet);
+                orders.add(order);
             }
         } catch (SQLException e) {
             e.printStackTrace();

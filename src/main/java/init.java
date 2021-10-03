@@ -29,9 +29,9 @@ public class init {
 
         final Order newOrder = new Order(newClient.getId(), newTask.getId());
         ordersDAO.insert(newOrder);
-        System.out.println("Create new task: " + ordersDAO.getById(newOrder.getId()));
-        System.out.println("Get new task by property: " + ordersDAO.getByPropertyName("clientId", newOrder.getClientId().toString()));
-        System.out.println("All tasks: ");
+        System.out.println("Create new order: " + ordersDAO.getById(newOrder.getId()));
+        System.out.println("Get new order by property: " + ordersDAO.getByPropertyName("clientId", newOrder.getClientId().toString()));
+        System.out.println("All orders: ");
         ordersDAO.getAll().forEach((user) -> System.out.println(user.toString()));
     }
 }
