@@ -1,6 +1,7 @@
 package dao;
 
-import objects.Client;
+import objects.Task;
+import objects.Task;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,17 +10,18 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
 
-public class ClientsImpl implements EntityImpl<Client> {
-    protected Statement statement;
-    private static String tableName = "client";
+public class TasksImpl implements EntityImpl<Task> {
 
-    public ClientsImpl(Statement statement) {
+    protected Statement statement;
+    public static String tableName = "task";
+
+    public TasksImpl(Statement statement) {
         this.statement = statement;
         this.createTable();
     }
 
     public static String getTableName() {
-        return ClientsImpl.tableName;
+        return TasksImpl.tableName;
     }
 
     private void createTable() {
@@ -27,52 +29,52 @@ public class ClientsImpl implements EntityImpl<Client> {
                 "CREATE TABLE IF NOT EXISTS " + this.tableName + " (" +
                         "id varchar(45) PRIMARY KEY NOT NULL," +
                         "name varchar(450) NOT NULL," +
-                        "email varchar(450) NOT NULL," +
-                        "password varchar(450) NOT NULL" +
+                        "description varchar(450) NOT NULL," +
+                        "price float(6) NOT NULL" +
                         ")";
 
         this.executeUpdate(sqlCreateTableStatement);
     }
 
-    public void insert(Client client) {
+    public void insert(Task client) {
         String sql = "INSERT INTO \"" + this.tableName + "\""
-                + " (id, name, password, email)"
+                + " (id, name, description, price)"
                 + " VALUES ('"
                 + client.getId() + "', '"
                 + client.getName() + "', '"
-                + client.getPassword() + "', '"
-                + client.getEmail() + "')";
+                + client.getDescription() + "', '"
+                + client.getPrice() + "')";
 
         this.executeUpdate(sql);
     }
 
-    public Client getById(UUID id) {
+    public Task getById(UUID id) {
         String sql = "SELECT * FROM \"" + this.tableName + "\"  WHERE id = '" + id + "'";
         ResultSet query = this.executeQuery(sql);
         return this.createEntityFromQuery(query);
     }
 
-    public Client getByPropertyName(String propertyName, String propertyValue) {
+    public Task getByPropertyName(String propertyName, String propertyValue) {
         String sql = "SELECT * FROM \"" + this.tableName + "\" WHERE \""
                 + this.tableName + "\"." + propertyName.toLowerCase(Locale.ROOT) + " = '" + propertyValue + "'";
         ResultSet query = this.executeQuery(sql);
         return this.createEntityFromQuery(query);
     }
 
-    public ArrayList<Client> getAll() {
-        ArrayList<Client> clients = new ArrayList<>();
+    public ArrayList<Task> getAll() {
+        ArrayList<Task> clients = new ArrayList<>();
         String sql= "SELECT * FROM \"" + this.tableName +"\"";
         this.executeSelectQuery(sql, clients);
         return clients;
     }
 
-    public Client createEntityFromQuery(ResultSet resultSet) {
+    public Task createEntityFromQuery(ResultSet resultSet) {
         try {
             String id = resultSet.getString("id");
             String name = resultSet.getString("name");
-            String email = resultSet.getString("email");
-            String password = resultSet.getString("password");
-            return new Client(UUID.fromString(id), name, email, password);
+            String description = resultSet.getString("description");
+            Double price = resultSet.getDouble("price");
+            return new Task(UUID.fromString(id), name, description, price);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -91,11 +93,11 @@ public class ClientsImpl implements EntityImpl<Client> {
         return null;
     }
 
-    public void executeSelectQuery(String query, ArrayList<Client> clients) {
+    public void executeSelectQuery(String query, ArrayList<Task> clients) {
         try {
             ResultSet resultSet = this.statement.executeQuery(query);
             while (resultSet.next()) {
-                Client client = this.createEntityFromQuery(resultSet);
+                Task client = this.createEntityFromQuery(resultSet);
                 clients.add(client);
             }
         } catch (SQLException e) {
@@ -110,5 +112,4 @@ public class ClientsImpl implements EntityImpl<Client> {
             e.printStackTrace();
         }
     }
-
 }

@@ -9,7 +9,7 @@ public interface EntityImpl<T> {
     public String tableName = "";
     public ResultSet executeQuery(String query) throws SQLException;
     public void executeUpdate(String query) throws SQLException;
-    public T createClassFromQuery(ResultSet query) throws SQLException;
+    public T createEntityFromQuery(ResultSet query) throws SQLException;
     public void executeSelectQuery(String query, ArrayList<T> entities) throws SQLException;
     public T getByPropertyName(String propertyName, String propertyValue);
     public T getById(UUID id);
